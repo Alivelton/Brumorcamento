@@ -1,28 +1,18 @@
-// swift-tools-version: 6.0
-
+// swift-tools-version: 5.9
 import PackageDescription
 
 let package = Package(
     name: "BrumOrcamento",
     platforms: [
-        .iOS(.v17),
-        .macOS(.v14),
+        .iOS(.v17)
     ],
     products: [
-        // An xtool project should contain exactly one library product,
-        // representing the main app.
-        .library(
-            name: "BrumOrcamento",
-            targets: ["BrumOrcamento"]
-        ),
+        .executable(name: "BrumOrcamento", targets: ["BrumOrcamento"])
     ],
     targets: [
-        .target(
+        .executableTarget(
             name: "BrumOrcamento",
-            dependencies: [],
-            resources: [
-                .process("Resources")
-            ]
-        ),
+            path: "Sources/BrumOrcamento"
+        )
     ]
 )
