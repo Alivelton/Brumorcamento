@@ -1,4 +1,5 @@
 version: 1
-bundleID: com.brum.orcamento
+bundleID: br.xyz.brum.orcamento
+displayName: Brum Orçamentos
 product: BrumOrcamento
 infoPath: Sources/BrumOrcamento/Resources/Info.plist

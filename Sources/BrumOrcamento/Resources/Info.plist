@@ -5,11 +5,11 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>pt-BR</string>
     <key>CFBundleDisplayName</key>
-    <string>Brum Orçamento</string>
+    <string>Brum Orçamentos</string>
     <key>CFBundleExecutable</key>
     <string>BrumOrcamento</string>
     <key>CFBundleIdentifier</key>
-    <string>com.brum.orcamento</string>
+    <string>br.xyz.brum.orcamento</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>
