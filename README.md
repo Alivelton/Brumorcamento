@@ -1,75 +1,46 @@
-# Brum Orçamento (iOS) - SwiftPM + xtool
+# Brum Orçamentos (iOS) - SwiftPM + xtool
 
-Aplicativo iOS nativo em **SwiftUI** estruturado como pacote **Swift Package Manager (SwiftPM)** com suporte ao **[xtool](https://github.com/xtool-org/xtool)** para compilação, assinatura e deploy sem necessidade do Xcode pesado no Linux ou macOS.
-
----
-
-## Módulos e Funcionalidades
-
-1. **Orçamentos (`Quotes`)**:
-   - Criação e cálculo automático de itens de **Material / Produto** e **Serviço / Mão de Obra**.
-   - Controle de validade com padrão de 15 dias.
-   - Status: *Rascunho*, *Enviado*, *Aprovado*, *Faturado* e *Cancelado*.
-   - Integração com **Mercado Pago** (geração automática de código Pix Copia e Cola EMVCo e links de checkout).
-
-2. **A Receber (`Receivables`)**:
-   - Acompanhamento do fluxo financeiro com cartões de status (*Pendente*, *Pago*, *Atrasado*).
-   - Liquidação e baixa de cobranças direta com registro da forma de pagamento.
-   - Geração de Pix avulso por parcela.
-
-3. **Clientes (`Clients`)**:
-   - Cadastro ágil e completo (Nome, CNPJ/CPF, Telefone, E-mail, Endereço).
-   - Ações rápidas: Ligar e Chamar no WhatsApp.
-
-4. **Ajustes e Persistência (`Settings` & `DataStore`)**:
-   - Persistência local atômica em `Documents/dados_brum.json`.
-   - Inicialização automática a partir de `dados_iniciais.json` / backup no primeiro uso.
-   - Exportação e restauração da base via painel do sistema.
+Aplicativo iOS nativo em **SwiftUI** estruturado como pacote **Swift Package Manager (SwiftPM)**, compatível com a ferramenta **[xtool](https://github.com/xtool-org/xtool)**. Focado na agilidade de atendimento em campo (**Orçamentos de Rua**) para a **Brum Soluções Técnicas**.
 
 ---
 
-## Estrutura de Diretórios
+## Funcionalidades Principais
+
+1. **Atendimento Rápido em Campo (Offline-First)**:
+   - Registro do Cliente / Condomínio, WhatsApp e observações.
+   - Adição dinâmica de itens (**Serviço** ou **Material**) com controle de unidade (`SV`, `UN`), quantidade, custo unitário e preço de venda.
+   - Cálculo instantâneo do custo total, valor de venda e margem de lucro estimada.
+
+2. **Compartilhamento Imediato**:
+   - **WhatsApp**: Disparo com mensagem formatada em Markdown, valores destacados e cálculo de totais.
+   - **Copiar Texto**: Cópia rápida para a área de transferência do iOS (`UIPasteboard`).
+
+3. **Persistência Local e Histórico**:
+   - Armazenamento atômico no iPhone via `UserDefaults` (`brum_solucoes_orcamentos_v1`).
+   - Identificadores sequenciais temporários (`ORC-RUA-001`, `ORC-RUA-002`, ...).
+   - Indicador visual de sincronização (*Sincronizado* vs *Pendente sync*).
+
+4. **Sincronização com o Servidor (Cloudflare / API)**:
+   - Endpoint: `https://faturamento.brum.xyz.br/api/orcamentos-rua` (configurável pelo usuário).
+   - Suporte a Bearer Token simples de autenticação.
+   - Envio em lote com atualização automática do status local após confirmação HTTP.
+
+---
+
+## Estrutura do Projeto
 
 ```
 BrumOrcamento/
-├── Package.swift                             # Manifesto SwiftPM
-├── xtool.yml                                 # Configuração xtool (bundleID, infoPath)
+├── Package.swift                             # Manifesto SwiftPM (iOS 17, executable BrumOrcamento)
+├── xtool.yml                                 # Configuração xtool (bundleID, displayName, product)
 ├── .gitignore
 ├── README.md
-├── backup_dados_brum/
-│   └── dados_existentes.json                 # Backup de dados existente
 └── Sources/
     └── BrumOrcamento/
-        ├── BrumOrcamentoApp.swift            # Entry point (@main)
-        ├── Models/
-        │   ├── AppDatabase.swift             # Schema do banco
-        │   ├── Client.swift                  # Modelos de Clientes e Endereço
-        │   ├── Quote.swift                   # Modelos de Orçamentos e Itens
-        │   └── Receivable.swift              # Modelos de Cobranças / Parcelas
-        ├── Services/
-        │   ├── DataStore.swift               # Persistência e estado reativo
-        │   └── MercadoPagoService.swift      # Cobranças e Pix EMVCo
-        ├── Views/
-        │   ├── MainTabView.swift             # Navegação principal por abas
-        │   ├── Common/
-        │   │   ├── Formatters.swift          # Formatação de moeda BRL, datas e badges
-        │   │   └── StatCardView.swift        # Cards de totais financeiros
-        │   ├── Quotes/
-        │   │   ├── QuotesListView.swift
-        │   │   ├── QuoteDetailView.swift
-        │   │   └── NewQuoteView.swift
-        │   ├── Receivables/
-        │   │   ├── ReceivablesListView.swift
-        │   │   └── ReceivableDetailView.swift
-        │   ├── Clients/
-        │   │   ├── ClientsListView.swift
-        │   │   ├── ClientDetailView.swift
-        │   │   └── ClientFormView.swift
-        │   └── Settings/
-        │       └── SettingsView.swift
+        ├── BrumOrcamentoApp.swift            # Entry point (@main struct BrumOrcamentoApp: App)
+        ├── ContentView.swift                 # View principal, modelos (ItemOrcamento, OrcamentoRua) e sync
         └── Resources/
-            ├── Info.plist                    # Metadados do app iOS
-            └── dados_iniciais.json           # Base inicial de dados
+            └── Info.plist                    # Bundle metadata (CFBundleDisplayName, CFBundleIdentifier)
 ```
 
 ---
