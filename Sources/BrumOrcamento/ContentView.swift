@@ -58,7 +58,7 @@ struct ContentView: View {
     @State private var orcamentos: [OrcamentoRua] = []
 
     // Configuração de sincronização (opcional / sob demanda)
-    @State private var syncURL: String = "https://faturamento.brum.xyz.br/api/orcamentos-rua"
+    @State private var syncURL: String = "https://brum-orcamentos-sync.aliveltonbrum.workers.dev/"
     @State private var syncToken: String = ""
     @State private var statusMsg: String = "Modo offline ativo. Salva local no iPhone."
     @State private var sincronizando: Bool = false
