@@ -7,10 +7,15 @@ let package = Package(
         .iOS(.v17)
     ],
     products: [
-        .executable(name: "BrumOrcamento", targets: ["BrumOrcamento"])
+        // An xtool project should contain exactly one library product,
+        // representing the main app.
+        .library(
+            name: "BrumOrcamento",
+            targets: ["BrumOrcamento"]
+        )
     ],
     targets: [
-        .executableTarget(
+        .target(
             name: "BrumOrcamento",
             path: "Sources/BrumOrcamento"
         )
